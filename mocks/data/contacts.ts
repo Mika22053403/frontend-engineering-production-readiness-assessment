@@ -1,5 +1,4 @@
-import type { Contact } from "@/types/contact";
-
+import type { Contact } from "@/features/contacts/types/contact";
 export const contacts: Contact[] = [
   {
     id: "1",
