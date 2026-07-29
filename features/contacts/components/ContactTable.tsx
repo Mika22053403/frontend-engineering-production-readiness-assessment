@@ -10,6 +10,7 @@ import {
   getSortedRowModel,
   type RowSelectionState,
   type SortingState,
+  type VisibilityState,
   useReactTable,
 } from "@tanstack/react-table";
 
@@ -43,6 +44,12 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface Props {
   data: Contact[];
@@ -54,7 +61,7 @@ export default function ContactTable({ data }: Props) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState("");
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
-
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [editingContact, setEditingContact] = useState<Contact | null>(null);
   const [editOpen, setEditOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
@@ -69,8 +76,14 @@ export default function ContactTable({ data }: Props) {
   // Edit Contact
   // ------------------------
 
+  /**
+   * Handles the edit action for a contact
+   * @param contact - The contact object to be edited
+   */
   const handleEdit = (contact: Contact) => {
+    // Set the contact to be edited in the state
     setEditingContact(contact);
+    // Open the edit modal/form
     setEditOpen(true);
   };
 
@@ -97,11 +110,13 @@ export default function ContactTable({ data }: Props) {
       sorting,
       globalFilter,
       rowSelection,
+      columnVisibility,
     },
 
     onSortingChange: setSorting,
     onGlobalFilterChange: setGlobalFilter,
     onRowSelectionChange: setRowSelection,
+    onColumnVisibilityChange: setColumnVisibility,
 
     enableRowSelection: true,
 
@@ -181,6 +196,31 @@ export default function ContactTable({ data }: Props) {
         </div>
 
         <div className="flex gap-2">
+          {/* Column Visibility */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline">Columns</Button>
+            </DropdownMenuTrigger>
+
+            <DropdownMenuContent align="end">
+              {table
+                .getAllColumns()
+                .filter((column) => column.getCanHide())
+                .map((column) => (
+                  <DropdownMenuCheckboxItem
+                    key={column.id}
+                    checked={column.getIsVisible()}
+                    onCheckedChange={(value) =>
+                      column.toggleVisibility(!!value)
+                    }
+                  >
+                    {column.id}
+                  </DropdownMenuCheckboxItem>
+                ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          {/* Export */}
           <Button
             variant="outline"
             disabled={table.getSelectedRowModel().rows.length === 0}
@@ -189,6 +229,7 @@ export default function ContactTable({ data }: Props) {
             Export
           </Button>
 
+          {/* Delete */}
           <AlertDialog open={deleteOpen} onOpenChange={setDeleteOpen}>
             <AlertDialogTrigger asChild>
               <Button
@@ -205,7 +246,7 @@ export default function ContactTable({ data }: Props) {
 
                 <AlertDialogDescription>
                   This action cannot be undone. The selected contacts will be
-                  removed.
+                  permanently removed.
                 </AlertDialogDescription>
               </AlertDialogHeader>
 

@@ -74,6 +74,7 @@ export const columns = ({ onEdit }: ColumnProps): ColumnDef<Contact>[] => [
   {
     accessorKey: "email",
     header: "Email",
+    enableHiding: true,
   },
 
   {
