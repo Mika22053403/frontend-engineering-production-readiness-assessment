@@ -32,6 +32,17 @@ import type { Contact } from "../types/contact";
 import { useCreateContact } from "../hooks/useCreateContact";
 import { useUpdateContact } from "../hooks/useUpdateContact";
 import { useDeleteContact } from "../hooks/useDeleteContact";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 interface Props {
   data: Contact[];
@@ -46,6 +57,7 @@ export default function ContactTable({ data }: Props) {
 
   const [editingContact, setEditingContact] = useState<Contact | null>(null);
   const [editOpen, setEditOpen] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
   const createContact = useCreateContact();
   const updateContact = useUpdateContact();
   const deleteContact = useDeleteContact();
@@ -177,13 +189,40 @@ export default function ContactTable({ data }: Props) {
             Export
           </Button>
 
-          <Button
-            variant="destructive"
-            disabled={table.getSelectedRowModel().rows.length === 0}
-            onClick={handleDeleteSelected}
-          >
-            Delete Selected
-          </Button>
+          <AlertDialog open={deleteOpen} onOpenChange={setDeleteOpen}>
+            <AlertDialogTrigger asChild>
+              <Button
+                variant="destructive"
+                disabled={table.getSelectedRowModel().rows.length === 0}
+              >
+                Delete Selected
+              </Button>
+            </AlertDialogTrigger>
+
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Delete selected contacts?</AlertDialogTitle>
+
+                <AlertDialogDescription>
+                  This action cannot be undone. The selected contacts will be
+                  removed.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+
+                <AlertDialogAction
+                  onClick={() => {
+                    handleDeleteSelected();
+                    setDeleteOpen(false);
+                  }}
+                >
+                  Delete
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
       </div>
 
