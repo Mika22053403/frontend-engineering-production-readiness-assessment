@@ -3,6 +3,7 @@ import "./globals.css";
 
 import QueryProvider from "@/providers/query-provider";
 import MSWProvider from "@/providers/msw-provider";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "CampaignHQ",
@@ -20,6 +21,7 @@ export default function RootLayout({
         <MSWProvider>
           <QueryProvider>{children}</QueryProvider>
         </MSWProvider>
+        <Toaster richColors position="top-right" />
       </body>
     </html>
   );
