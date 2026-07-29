@@ -264,9 +264,15 @@ export default function ContactTable({ data }: Props) {
             <TableRow>
               <TableCell
                 colSpan={table.getAllColumns().length}
-                className="h-24 text-center"
+                className="h-48 text-center"
               >
-                No contacts found.
+                <div className="flex flex-col items-center justify-center gap-2">
+                  <p className="text-lg font-medium">No contacts found</p>
+
+                  <p className="text-sm text-muted-foreground">
+                    Try changing your search or create a new contact.
+                  </p>
+                </div>
               </TableCell>
             </TableRow>
           )}
