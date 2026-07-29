@@ -1,27 +1,22 @@
-"use client";
-
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { contactService } from "../services/contact.service";
-import { contactKeys } from "../queries/contact-query-keys";
+import type { Contact } from "../types/contact";
+
+interface UpdateContactPayload {
+  id: string;
+  contact: Partial<Contact>;
+}
 
 export function useUpdateContact() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({
-      id,
-      data,
-    }: {
-      id: string;
-      data: Parameters<
-        typeof contactService.updateContact
-      >[1];
-    }) =>
-      contactService.updateContact(id, data),
+    mutationFn: ({ id, contact }: UpdateContactPayload) =>
+      contactService.updateContact(id, contact),
 
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: contactKeys.all,
+        queryKey: ["contacts"],
       });
     },
   });

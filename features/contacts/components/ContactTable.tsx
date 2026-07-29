@@ -24,8 +24,14 @@ import {
 } from "@/components/ui/table";
 
 import ContactSearch from "./ContactSearch";
+import CreateContactDialog from "./CreateContactDialog";
+import EditContactDialog from "./EditContactDialog";
+
 import { columns } from "../table/table-columns";
 import type { Contact } from "../types/contact";
+import { useCreateContact } from "../hooks/useCreateContact";
+import { useUpdateContact } from "../hooks/useUpdateContact";
+import { useDeleteContact } from "../hooks/useDeleteContact";
 
 interface Props {
   data: Contact[];
@@ -33,17 +39,47 @@ interface Props {
 
 export default function ContactTable({ data }: Props) {
   const [tableData, setTableData] = useState<Contact[]>(data);
+
   const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState("");
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
+  const [editingContact, setEditingContact] = useState<Contact | null>(null);
+  const [editOpen, setEditOpen] = useState(false);
+  const createContact = useCreateContact();
+  const updateContact = useUpdateContact();
+  const deleteContact = useDeleteContact();
   useEffect(() => {
     setTableData(data);
   }, [data]);
 
+  // ------------------------
+  // Edit Contact
+  // ------------------------
+
+  const handleEdit = (contact: Contact) => {
+    setEditingContact(contact);
+    setEditOpen(true);
+  };
+
+  const handleSaveEdit = (updatedContact: Contact) => {
+    updateContact.mutate({
+      id: updatedContact.id,
+      contact: updatedContact,
+    });
+
+    setEditOpen(false);
+  };
+  // ------------------------
+  // Table
+  // ------------------------
+
   const table = useReactTable({
     data: tableData,
-    columns,
+
+    columns: columns({
+      onEdit: handleEdit,
+    }),
 
     state: {
       sorting,
@@ -63,17 +99,21 @@ export default function ContactTable({ data }: Props) {
     getPaginationRowModel: getPaginationRowModel(),
   });
 
-  const handleDeleteSelected = () => {
-    const selectedIds = table
-      .getSelectedRowModel()
-      .rows.map((row) => row.original.id);
+  // ------------------------
+  // Delete Selected
+  // ------------------------
 
-    setTableData((prev) =>
-      prev.filter((contact) => !selectedIds.includes(contact.id)),
-    );
+  const handleDeleteSelected = () => {
+    table.getSelectedRowModel().rows.forEach((row) => {
+      deleteContact.mutate(row.original.id);
+    });
 
     table.resetRowSelection();
   };
+
+  // ------------------------
+  // Export CSV
+  // ------------------------
 
   const handleExportSelected = () => {
     const selectedContacts = table
@@ -105,15 +145,28 @@ export default function ContactTable({ data }: Props) {
 
     link.href = url;
     link.download = "contacts.csv";
-
     link.click();
 
     URL.revokeObjectURL(url);
   };
+
   return (
     <div className="space-y-4">
+      {/* Toolbar */}
+
       <div className="flex items-center justify-between">
-        <ContactSearch value={globalFilter} onChange={setGlobalFilter} />
+        <div className="flex items-center gap-4">
+          <ContactSearch value={globalFilter} onChange={setGlobalFilter} />
+
+          <CreateContactDialog
+            onCreate={(contact) =>
+              createContact.mutate({
+                ...contact,
+                tags: [],
+              })
+            }
+          />
+        </div>
 
         <div className="flex gap-2">
           <Button
@@ -133,6 +186,8 @@ export default function ContactTable({ data }: Props) {
           </Button>
         </div>
       </div>
+
+      {/* Table */}
 
       <Table>
         <TableHeader>
@@ -155,7 +210,10 @@ export default function ContactTable({ data }: Props) {
         <TableBody>
           {table.getRowModel().rows.length ? (
             table.getRowModel().rows.map((row) => (
-              <TableRow key={row.id}>
+              <TableRow
+                key={row.id}
+                data-state={row.getIsSelected() && "selected"}
+              >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -165,13 +223,29 @@ export default function ContactTable({ data }: Props) {
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
+              <TableCell
+                colSpan={table.getAllColumns().length}
+                className="h-24 text-center"
+              >
                 No contacts found.
               </TableCell>
             </TableRow>
           )}
         </TableBody>
       </Table>
+
+      {/* Edit Dialog */}
+
+      {editingContact && (
+        <EditContactDialog
+          open={editOpen}
+          onOpenChange={setEditOpen}
+          contact={editingContact}
+          onSave={handleSaveEdit}
+        />
+      )}
+
+      {/* Pagination */}
 
       <div className="flex justify-end gap-2">
         <Button
