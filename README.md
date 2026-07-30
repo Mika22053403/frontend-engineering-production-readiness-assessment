@@ -1,36 +1,132 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CampaignHQ Frontend Engineering Assessment
 
-## Getting Started
+A production-ready Contacts Management module built with Next.js 16 as part of the Frontend Engineering Production Readiness Assessment.
 
-First, run the development server:
+---
+
+## Features
+
+### Contacts
+
+- View all contacts
+- Contact Details page
+- Create Contact
+- Edit Contact
+- Delete Contact
+- Delete confirmation dialog
+
+### Table Features
+
+- Global Search
+- Sorting
+- Pagination
+- Row Selection
+- Export Selected Contacts as CSV
+- Column Visibility Toggle
+
+### User Experience
+
+- Loading Skeleton
+- Empty State
+- Error State
+- Toast Notifications
+- Status Badges
+
+---
+
+## Tech Stack
+
+- Next.js 16
+- React 19
+- TypeScript
+- Tailwind CSS
+- shadcn/ui
+- TanStack Query
+- TanStack Table
+- Zod
+- React Hook Form
+- MSW (Mock Service Worker)
+
+---
+
+## Folder Structure
+
+```
+app/
+components/
+features/
+lib/
+mocks/
+providers/
+public/
+```
+
+---
+
+## Installation
+
+Clone the repository
+
+```bash
+git clone https://github.com/Mika22053403/frontend-engineering-production-readiness-assessment.git
+```
+
+Go into the project
+
+```bash
+cd frontend-engineering-production-readiness-assessment
+```
+
+Install dependencies
+
+```bash
+npm install
+```
+
+Start the development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## Build
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run build
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Project Highlights
 
-## Deploy on Vercel
+- Production folder structure
+- Feature-based architecture
+- Type-safe forms using Zod
+- Server state management using TanStack Query
+- Mock API using MSW
+- Responsive UI
+- Clean reusable components
+- Production build passes successfully
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Notes
+
+This project uses Mock Service Worker (MSW) to simulate backend APIs. Therefore, Create, Edit, and Delete operations are mocked and are not persisted after a full page refresh.
+
+---
+
+## Author
+
+**Arosree Satapathy**
+
+GitHub:
+https://github.com/Mika22053403
