@@ -1,13 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-import QueryProvider from "@/providers/query-provider";
-import MSWProvider from "@/providers/msw-provider";
-import { Toaster } from "sonner";
+import { QueryProvider, ThemeProvider } from "@/providers";
 
 export const metadata: Metadata = {
   title: "CampaignHQ",
-  description: "Contacts Module",
+  description: "CampaignHQ Contacts Module",
 };
 
 export default function RootLayout({
@@ -16,12 +14,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body>
-        <MSWProvider>
+        <ThemeProvider>
           <QueryProvider>{children}</QueryProvider>
-        </MSWProvider>
-        <Toaster richColors position="top-right" />
+        </ThemeProvider>
       </body>
     </html>
   );
