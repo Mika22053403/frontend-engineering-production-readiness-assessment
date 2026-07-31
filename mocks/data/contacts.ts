@@ -1,4 +1,13 @@
-import type { Contact } from "@/features/contacts/types/contact";
+export interface Contact {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  company: string;
+  tags: string[];
+  status: "Active" | "Inactive";
+}
+
 export const contacts: Contact[] = [
   {
     id: "1",
@@ -6,7 +15,7 @@ export const contacts: Contact[] = [
     email: "john@example.com",
     phone: "9876543210",
     company: "Google",
-    tags: ["VIP", "Lead"],
+    tags: ["VIP"],
     status: "Active",
   },
   {
@@ -15,16 +24,7 @@ export const contacts: Contact[] = [
     email: "jane@example.com",
     phone: "9123456789",
     company: "Microsoft",
-    tags: ["Customer"],
-    status: "Inactive",
-  },
-  {
-    id: "3",
-    name: "Alex Johnson",
-    email: "alex@example.com",
-    phone: "9988776655",
-    company: "Amazon",
     tags: ["Lead"],
-    status: "Active",
+    status: "Inactive",
   },
 ];
