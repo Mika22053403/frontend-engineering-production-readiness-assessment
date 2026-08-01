@@ -5,8 +5,30 @@ import { ColumnDef } from "@tanstack/react-table";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import EditContactDialog from "../components/edit-contact-dialog";
+
 import { Contact } from "@/types/contact";
+
+import EditContactDialog from "../components/edit-contact-dialog";
+import { useDeleteContact } from "../mutations/useDeleteContact";
+
+function ActionsCell({ contact }: { contact: Contact }) {
+  const deleteContact = useDeleteContact();
+
+  return (
+    <div className="flex gap-2">
+      <EditContactDialog contact={contact} />
+
+      <Button
+        variant="destructive"
+        size="sm"
+        onClick={() => deleteContact.mutate(contact.id)}
+        disabled={deleteContact.isPending}
+      >
+        Delete
+      </Button>
+    </div>
+  );
+}
 
 export const columns: ColumnDef<Contact>[] = [
   {
@@ -67,8 +89,6 @@ export const columns: ColumnDef<Contact>[] = [
   {
     id: "actions",
     header: "Actions",
-    cell: ({ row }) => {
-      return <EditContactDialog contact={row.original} />;
-    },
+    cell: ({ row }) => <ActionsCell contact={row.original} />,
   },
 ];

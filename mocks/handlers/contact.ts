@@ -5,12 +5,12 @@ import type { Contact } from "@/types/contact";
 import { contacts } from "../data/contacts";
 
 export const contactHandlers = [
-  // Get all contacts
+  // GET all contacts
   http.get("/api/contacts", () => {
     return HttpResponse.json(contacts);
   }),
 
-  // Create contact
+  // CREATE contact
   http.post("/api/contacts", async ({ request }) => {
     const body = (await request.json()) as Pick<
       Contact,
@@ -34,7 +34,7 @@ export const contactHandlers = [
     });
   }),
 
-  // Update contact
+  // UPDATE contact
   http.put("/api/contacts/:id", async ({ params, request }) => {
     const { id } = params;
 
@@ -56,5 +56,29 @@ export const contactHandlers = [
     contacts[index] = body;
 
     return HttpResponse.json(body);
+  }),
+
+  // DELETE contact
+  http.delete("/api/contacts/:id", ({ params }) => {
+    const { id } = params;
+
+    const index = contacts.findIndex((contact) => contact.id === id);
+
+    if (index === -1) {
+      return HttpResponse.json(
+        {
+          message: "Contact not found",
+        },
+        {
+          status: 404,
+        },
+      );
+    }
+
+    contacts.splice(index, 1);
+
+    return new HttpResponse(null, {
+      status: 204,
+    });
   }),
 ];
