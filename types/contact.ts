@@ -1,9 +1,9 @@
 export interface Contact {
   id: string;
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
   phone: string;
   company: string;
-  tags: string[];
   status: "Active" | "Inactive";
 }

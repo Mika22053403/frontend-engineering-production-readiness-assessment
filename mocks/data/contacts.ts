@@ -1,30 +1,31 @@
-export interface Contact {
-  id: string;
-  name: string;
-  email: string;
-  phone: string;
-  company: string;
-  tags: string[];
-  status: "Active" | "Inactive";
-}
+import { Contact } from "@/types/contact";
 
 export const contacts: Contact[] = [
   {
     id: "1",
-    name: "John Doe",
+    firstName: "John",
+    lastName: "Doe",
     email: "john@example.com",
     phone: "9876543210",
     company: "Google",
-    tags: ["VIP"],
     status: "Active",
   },
   {
     id: "2",
-    name: "Jane Smith",
+    firstName: "Jane",
+    lastName: "Smith",
     email: "jane@example.com",
-    phone: "9123456789",
+    phone: "9876543211",
     company: "Microsoft",
-    tags: ["Lead"],
     status: "Inactive",
+  },
+  {
+    id: "3",
+    firstName: "Alex",
+    lastName: "Johnson",
+    email: "alex@example.com",
+    phone: "9876543212",
+    company: "Amazon",
+    status: "Active",
   },
 ];

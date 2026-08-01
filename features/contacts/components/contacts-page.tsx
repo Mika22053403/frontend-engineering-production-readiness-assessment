@@ -1,7 +1,10 @@
 "use client";
 
-import ContactTable from "./contact-table";
 import { useContacts } from "@/hooks/useContacts";
+
+import { columns } from "../table/columns";
+import { ContactTable } from "./contact-table";
+import CreateContactDialog from "./create-contact-dialog";
 
 export default function ContactsPage() {
   const { data, isLoading, error } = useContacts();
@@ -11,14 +14,18 @@ export default function ContactsPage() {
   }
 
   if (error) {
-    return <div className="p-8">Failed to load contacts.</div>;
+    return <div className="p-8 text-red-500">Failed to load contacts.</div>;
   }
 
   return (
-    <main className="mx-auto max-w-7xl p-8">
-      <h1 className="mb-6 text-3xl font-bold">Contacts</h1>
+    <div className="container mx-auto py-8 space-y-6">
+      <div className="flex items-center justify-between">
+        <h1 className="text-3xl font-bold">Contacts</h1>
 
-      <ContactTable data={data ?? []} />
-    </main>
+        <CreateContactDialog />
+      </div>
+
+      <ContactTable columns={columns} data={data ?? []} />
+    </div>
   );
 }
