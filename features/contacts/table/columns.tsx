@@ -1,18 +1,11 @@
 "use client";
 
+import { ArrowUpDown } from "lucide-react";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-
+import EditContactDialog from "../components/edit-contact-dialog";
 import { Contact } from "@/types/contact";
 
 export const columns: ColumnDef<Contact>[] = [
@@ -35,7 +28,6 @@ export const columns: ColumnDef<Contact>[] = [
     enableSorting: false,
     enableHiding: false,
   },
-
   {
     accessorKey: "firstName",
     header: ({ column }) => (
@@ -48,7 +40,6 @@ export const columns: ColumnDef<Contact>[] = [
       </Button>
     ),
   },
-
   {
     accessorKey: "lastName",
     header: ({ column }) => (
@@ -61,7 +52,6 @@ export const columns: ColumnDef<Contact>[] = [
       </Button>
     ),
   },
-
   {
     accessorKey: "email",
     header: ({ column }) => (
@@ -74,39 +64,11 @@ export const columns: ColumnDef<Contact>[] = [
       </Button>
     ),
   },
-
   {
     id: "actions",
-    enableHiding: false,
+    header: "Actions",
     cell: ({ row }) => {
-      const contact = row.original;
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon">
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={() => console.log("View", contact)}>
-              View
-            </DropdownMenuItem>
-
-            <DropdownMenuItem onClick={() => console.log("Edit", contact)}>
-              Edit
-            </DropdownMenuItem>
-
-            <DropdownMenuItem
-              onClick={() => console.log("Delete", contact)}
-              className="text-red-600"
-            >
-              Delete
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
+      return <EditContactDialog contact={row.original} />;
     },
   },
 ];
