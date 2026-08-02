@@ -1,6 +1,7 @@
 "use client";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 import { contactService } from "@/services/contact.service";
 
@@ -14,6 +15,12 @@ export function useUpdateContact() {
       queryClient.invalidateQueries({
         queryKey: ["contacts"],
       });
+
+      toast.success("Contact updated successfully!");
+    },
+
+    onError: () => {
+      toast.error("Failed to update contact.");
     },
   });
 }
