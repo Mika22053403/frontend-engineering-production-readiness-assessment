@@ -9,23 +9,13 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Contact } from "@/types/contact";
 
 import EditContactDialog from "../components/edit-contact-dialog";
-import { useDeleteContact } from "../mutations/useDeleteContact";
+import DeleteContactDialog from "../components/delete-contact-dialog";
 
 function ActionsCell({ contact }: { contact: Contact }) {
-  const deleteContact = useDeleteContact();
-
   return (
     <div className="flex gap-2">
       <EditContactDialog contact={contact} />
-
-      <Button
-        variant="destructive"
-        size="sm"
-        onClick={() => deleteContact.mutate(contact.id)}
-        disabled={deleteContact.isPending}
-      >
-        Delete
-      </Button>
+      <DeleteContactDialog contact={contact} />
     </div>
   );
 }
