@@ -39,15 +39,16 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-interface ContactTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+
+import { useBulkDeleteContacts } from "../mutations/useBulkDeleteContacts";
+import { exportContacts } from "@/lib/export-contacts";
+import { Contact } from "@/types/contact";
+interface ContactTableProps {
+  columns: ColumnDef<Contact>[];
+  data: Contact[];
 }
 
-export function ContactTable<TData, TValue>({
-  columns,
-  data,
-}: ContactTableProps<TData, TValue>) {
+export function ContactTable({ columns, data }: ContactTableProps) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],
@@ -58,7 +59,8 @@ export function ContactTable<TData, TValue>({
     pageSize: 5,
   });
   const [columnVisibility, setColumnVisibility] = React.useState({});
-
+  const bulkDelete = useBulkDeleteContacts();
+  const [rowSelection, setRowSelection] = React.useState({});
   const table = useReactTable({
     data,
     columns,
@@ -68,13 +70,15 @@ export function ContactTable<TData, TValue>({
       columnFilters,
       pagination,
       columnVisibility,
+      rowSelection,
     },
 
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     onPaginationChange: setPagination,
     onColumnVisibilityChange: setColumnVisibility,
-
+    onRowSelectionChange: setRowSelection,
+    enableRowSelection: true,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
@@ -95,26 +99,63 @@ export function ContactTable<TData, TValue>({
           className="max-w-sm"
         />
 
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline">Columns</Button>
-          </DropdownMenuTrigger>
+        <div className="flex gap-2">
+          {table.getFilteredSelectedRowModel().rows.length > 0 && (
+            <>
+              <Button
+                variant="outline"
+                onClick={() =>
+                  exportContacts(
+                    table
+                      .getFilteredSelectedRowModel()
+                      .rows.map((row) => row.original),
+                  )
+                }
+              >
+                Export Selected (
+                {table.getFilteredSelectedRowModel().rows.length})
+              </Button>
 
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => (
-                <DropdownMenuCheckboxItem
-                  key={column.id}
-                  checked={column.getIsVisible()}
-                  onCheckedChange={(value) => column.toggleVisibility(!!value)}
-                >
-                  {column.id}
-                </DropdownMenuCheckboxItem>
-              ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
+              <Button
+                variant="destructive"
+                onClick={() =>
+                  bulkDelete.mutate(
+                    table
+                      .getFilteredSelectedRowModel()
+                      .rows.map((row) => row.original.id),
+                  )
+                }
+                disabled={bulkDelete.isPending}
+              >
+                Delete Selected (
+                {table.getFilteredSelectedRowModel().rows.length})
+              </Button>
+            </>
+          )}
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline">Columns</Button>
+            </DropdownMenuTrigger>
+
+            <DropdownMenuContent align="end">
+              {table
+                .getAllColumns()
+                .filter((column) => column.getCanHide())
+                .map((column) => (
+                  <DropdownMenuCheckboxItem
+                    key={column.id}
+                    checked={column.getIsVisible()}
+                    onCheckedChange={(value) =>
+                      column.toggleVisibility(!!value)
+                    }
+                  >
+                    {column.id}
+                  </DropdownMenuCheckboxItem>
+                ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       </div>
 
       <div className="rounded-lg border">
