@@ -78,6 +78,18 @@ export const columns: ColumnDef<Contact>[] = [
     ),
   },
   {
+    accessorKey: "phone",
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Phone
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
+  },
+  {
     accessorKey: "company",
     header: "Company",
   },
