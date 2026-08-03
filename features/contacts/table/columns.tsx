@@ -11,6 +11,7 @@ import { Contact } from "@/types/contact";
 
 import EditContactDialog from "../components/edit-contact-dialog";
 import DeleteContactDialog from "../components/delete-contact-dialog";
+import Link from "next/link";
 
 function ActionsCell({ contact }: { contact: Contact }) {
   return (
@@ -52,6 +53,15 @@ export const columns: ColumnDef<Contact>[] = [
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
+
+    cell: ({ row }) => (
+      <Link
+        href={`/contacts/${row.original.id}`}
+        className="font-medium text-blue-600 hover:underline"
+      >
+        {row.original.firstName}
+      </Link>
+    ),
   },
   {
     accessorKey: "lastName",
@@ -63,6 +73,15 @@ export const columns: ColumnDef<Contact>[] = [
         Last Name
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
+    ),
+
+    cell: ({ row }) => (
+      <Link
+        href={`/contacts/${row.original.id}`}
+        className="font-medium text-blue-600 hover:underline"
+      >
+        {row.original.lastName}
+      </Link>
     ),
   },
   {
