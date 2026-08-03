@@ -15,6 +15,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 import { contactSchema } from "@/schemas/contact.schema";
 import { useCreateContact } from "../mutations/useCreateContact";
 
@@ -28,8 +36,11 @@ export default function CreateContactDialog() {
       firstName: "",
       lastName: "",
       email: "",
+      phone: "",
+      company: "",
+      tags: [] as string[],
+      status: "Active" as "Active" | "Inactive",
     },
-
     validators: {
       onSubmit: contactSchema,
     },
@@ -106,6 +117,7 @@ export default function CreateContactDialog() {
 
                 <Input
                   type="email"
+                  autoComplete="email"
                   value={field.state.value}
                   onChange={(e) => field.handleChange(e.target.value)}
                 />
@@ -119,6 +131,104 @@ export default function CreateContactDialog() {
             )}
           </form.Field>
 
+          <form.Field name="phone">
+            {(field) => (
+              <div className="space-y-2">
+                <Label>Phone</Label>
+
+                <Input
+                  type="tel"
+                  inputMode="numeric"
+                  maxLength={10}
+                  value={field.state.value}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                />
+
+                {field.state.meta.errors.length > 0 && (
+                  <p className="text-sm text-red-500">
+                    {String(field.state.meta.errors[0])}
+                  </p>
+                )}
+              </div>
+            )}
+          </form.Field>
+          <form.Field name="company">
+            {(field) => (
+              <div className="space-y-2">
+                <Label>Company</Label>
+
+                <Input
+                  value={field.state.value}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                />
+
+                {field.state.meta.errors.length > 0 && (
+                  <p className="text-sm text-red-500">
+                    {String(field.state.meta.errors[0])}
+                  </p>
+                )}
+              </div>
+            )}
+          </form.Field>
+          <form.Field name="tags">
+            {(field) => (
+              <div className="space-y-2">
+                <Label>Tags</Label>
+
+                <Input
+                  placeholder="VIP, Customer, Lead"
+                  value={field.state.value.join(", ")}
+                  onChange={(e) =>
+                    field.handleChange(
+                      e.target.value
+                        .split(",")
+                        .map((tag) => tag.trim())
+                        .filter(Boolean),
+                    )
+                  }
+                />
+
+                <p className="text-xs text-muted-foreground">
+                  Separate multiple tags with commas.
+                </p>
+
+                {field.state.meta.errors.length > 0 && (
+                  <p className="text-sm text-red-500">
+                    {String(field.state.meta.errors[0])}
+                  </p>
+                )}
+              </div>
+            )}
+          </form.Field>
+          <form.Field name="status">
+            {(field) => (
+              <div className="space-y-2">
+                <Label>Status</Label>
+
+                <Select
+                  value={field.state.value}
+                  onValueChange={(value) =>
+                    field.handleChange(value as "Active" | "Inactive")
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select status" />
+                  </SelectTrigger>
+
+                  <SelectContent>
+                    <SelectItem value="Active">Active</SelectItem>
+                    <SelectItem value="Inactive">Inactive</SelectItem>
+                  </SelectContent>
+                </Select>
+
+                {field.state.meta.errors.length > 0 && (
+                  <p className="text-sm text-red-500">
+                    {String(field.state.meta.errors[0])}
+                  </p>
+                )}
+              </div>
+            )}
+          </form.Field>
           <Button
             type="submit"
             className="w-full"

@@ -8,12 +8,11 @@ export const contactService = {
   },
 
   async createContact(
-    data: Pick<Contact, "firstName" | "lastName" | "email">
-  ) {
-    const response = await api.post("/contacts", data);
-    return response.data;
-  },
-
+  data: Omit<Contact, "id">
+) {
+  const response = await api.post("/contacts", data);
+  return response.data;
+},
   async updateContact(contact: Contact) {
     const response = await api.put(
       `/contacts/${contact.id}`,

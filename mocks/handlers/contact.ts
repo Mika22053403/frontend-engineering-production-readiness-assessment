@@ -12,21 +12,19 @@ export const contactHandlers = [
 
   // CREATE contact
   http.post("/api/contacts", async ({ request }) => {
-    const body = (await request.json()) as Pick<
-      Contact,
-      "firstName" | "lastName" | "email"
-    >;
+    const body = (await request.json()) as Omit<Contact, "id">;
 
     const newContact: Contact = {
-  id: String(contacts.length + 1),
-  firstName: body.firstName,
-  lastName: body.lastName,
-  email: body.email,
-  phone: "",
-  company: "",
-  tags: [],
-  status: "Active",
-};
+      id: crypto.randomUUID(),
+
+      firstName: body.firstName,
+      lastName: body.lastName,
+      email: body.email,
+      phone: body.phone,
+      company: body.company,
+      tags: body.tags,
+      status: body.status,
+    };
 
     contacts.push(newContact);
 
@@ -54,9 +52,13 @@ export const contactHandlers = [
       );
     }
 
-    contacts[index] = body;
+    contacts[index] = {
+      ...contacts[index],
+      ...body,
+      id: contacts[index].id,
+    };
 
-    return HttpResponse.json(body);
+    return HttpResponse.json(contacts[index]);
   }),
 
   // DELETE contact

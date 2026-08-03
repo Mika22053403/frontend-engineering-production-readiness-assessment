@@ -18,6 +18,15 @@ import { Label } from "@/components/ui/label";
 import { Contact } from "@/types/contact";
 import { useUpdateContact } from "../mutations/useUpdateContact";
 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+import { editContactSchema } from "@/schemas/contact.schema";
 interface EditContactDialogProps {
   contact: Contact;
 }
@@ -31,7 +40,9 @@ export default function EditContactDialog({ contact }: EditContactDialogProps) {
     defaultValues: {
       ...contact,
     },
-
+    validators: {
+      onSubmit: editContactSchema,
+    },
     onSubmit: async ({ value }) => {
       await updateContact.mutateAsync(value);
 
@@ -93,6 +104,76 @@ export default function EditContactDialog({ contact }: EditContactDialogProps) {
                   value={field.state.value}
                   onChange={(e) => field.handleChange(e.target.value)}
                 />
+              </div>
+            )}
+          </form.Field>
+
+          <form.Field name="phone">
+            {(field) => (
+              <div className="space-y-2">
+                <Label>Phone</Label>
+
+                <Input
+                  value={field.state.value}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                />
+              </div>
+            )}
+          </form.Field>
+
+          <form.Field name="company">
+            {(field) => (
+              <div className="space-y-2">
+                <Label>Company</Label>
+
+                <Input
+                  value={field.state.value}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                />
+              </div>
+            )}
+          </form.Field>
+
+          <form.Field name="tags">
+            {(field) => (
+              <div className="space-y-2">
+                <Label>Tags</Label>
+
+                <Input
+                  value={field.state.value.join(", ")}
+                  onChange={(e) =>
+                    field.handleChange(
+                      e.target.value
+                        .split(",")
+                        .map((tag) => tag.trim())
+                        .filter(Boolean),
+                    )
+                  }
+                />
+              </div>
+            )}
+          </form.Field>
+
+          <form.Field name="status">
+            {(field) => (
+              <div className="space-y-2">
+                <Label>Status</Label>
+
+                <Select
+                  value={field.state.value}
+                  onValueChange={(value) =>
+                    field.handleChange(value as "Active" | "Inactive")
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select status" />
+                  </SelectTrigger>
+
+                  <SelectContent>
+                    <SelectItem value="Active">Active</SelectItem>
+                    <SelectItem value="Inactive">Inactive</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
             )}
           </form.Field>

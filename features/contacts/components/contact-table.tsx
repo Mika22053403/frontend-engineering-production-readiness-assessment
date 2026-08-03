@@ -61,6 +61,9 @@ export function ContactTable({ columns, data }: ContactTableProps) {
   const [columnVisibility, setColumnVisibility] = React.useState({});
   const bulkDelete = useBulkDeleteContacts();
   const [rowSelection, setRowSelection] = React.useState({});
+  const companies = Array.from(
+    new Set(data.map((contact) => contact.company).filter(Boolean)),
+  );
   const table = useReactTable({
     data,
     columns,
@@ -98,6 +101,14 @@ export function ContactTable({ columns, data }: ContactTableProps) {
               table.getColumn("firstName")?.setFilterValue(event.target.value)
             }
             className="w-64"
+          />
+          <Input
+            placeholder="Search by tag..."
+            value={(table.getColumn("tags")?.getFilterValue() as string) ?? ""}
+            onChange={(event) =>
+              table.getColumn("tags")?.setFilterValue(event.target.value)
+            }
+            className="w-56"
           />
 
           <Select
@@ -137,9 +148,12 @@ export function ContactTable({ columns, data }: ContactTableProps) {
 
             <SelectContent>
               <SelectItem value="all">All Companies</SelectItem>
-              <SelectItem value="Google">Google</SelectItem>
-              <SelectItem value="Microsoft">Microsoft</SelectItem>
-              <SelectItem value="Amazon">Amazon</SelectItem>
+
+              {companies.map((company) => (
+                <SelectItem key={company} value={company}>
+                  {company}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>

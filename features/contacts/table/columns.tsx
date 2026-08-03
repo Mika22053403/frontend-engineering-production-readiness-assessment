@@ -116,10 +116,22 @@ export const columns: ColumnDef<Contact>[] = [
   {
     accessorKey: "status",
     header: "Status",
+
+    filterFn: (row, id, value) => {
+      return row.getValue(id) === value;
+    },
   },
   {
     accessorKey: "tags",
     header: "Tags",
+
+    filterFn: (row, id, value) => {
+      const tags = row.getValue(id) as string[];
+
+      return tags.some((tag) =>
+        tag.toLowerCase().includes((value as string).toLowerCase()),
+      );
+    },
 
     cell: ({ row }) => {
       const tags = row.original.tags;
