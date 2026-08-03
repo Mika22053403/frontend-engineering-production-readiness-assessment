@@ -5,5 +5,6 @@ export interface Contact {
   email: string;
   phone: string;
   company: string;
+  tags: string[];
   status: "Active" | "Inactive";
 }

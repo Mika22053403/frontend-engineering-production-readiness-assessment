@@ -18,14 +18,15 @@ export const contactHandlers = [
     >;
 
     const newContact: Contact = {
-      id: String(contacts.length + 1),
-      firstName: body.firstName,
-      lastName: body.lastName,
-      email: body.email,
-      phone: "",
-      company: "",
-      status: "Active",
-    };
+  id: String(contacts.length + 1),
+  firstName: body.firstName,
+  lastName: body.lastName,
+  email: body.email,
+  phone: "",
+  company: "",
+  tags: [],
+  status: "Active",
+};
 
     contacts.push(newContact);
 

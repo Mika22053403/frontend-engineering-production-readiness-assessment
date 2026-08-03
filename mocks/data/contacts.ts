@@ -8,6 +8,7 @@ export const contacts: Contact[] = [
     email: "john@example.com",
     phone: "9876543210",
     company: "Google",
+    tags: ["Customer", "VIP"],
     status: "Active",
   },
   {
@@ -17,6 +18,7 @@ export const contacts: Contact[] = [
     email: "jane@example.com",
     phone: "9876543211",
     company: "Microsoft",
+    tags: ["Lead"],
     status: "Inactive",
   },
   {
@@ -26,6 +28,7 @@ export const contacts: Contact[] = [
     email: "alex@example.com",
     phone: "9876543212",
     company: "Amazon",
+    tags: ["Enterprise", "Customer"],
     status: "Active",
   },
 ];

@@ -5,6 +5,7 @@ import { ColumnDef } from "@tanstack/react-table";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Badge } from "@/components/ui/badge";
 
 import { Contact } from "@/types/contact";
 
@@ -75,6 +76,33 @@ export const columns: ColumnDef<Contact>[] = [
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
+  },
+  {
+    accessorKey: "company",
+    header: "Company",
+  },
+
+  {
+    accessorKey: "status",
+    header: "Status",
+  },
+  {
+    accessorKey: "tags",
+    header: "Tags",
+
+    cell: ({ row }) => {
+      const tags = row.original.tags;
+
+      return (
+        <div className="flex flex-wrap gap-1">
+          {tags.map((tag) => (
+            <Badge key={tag} variant="secondary">
+              {tag}
+            </Badge>
+          ))}
+        </div>
+      );
+    },
   },
   {
     id: "actions",

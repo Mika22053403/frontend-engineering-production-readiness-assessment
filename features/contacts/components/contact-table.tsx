@@ -87,17 +87,62 @@ export function ContactTable({ columns, data }: ContactTableProps) {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between py-4">
-        <Input
-          placeholder="Search by first name..."
-          value={
-            (table.getColumn("firstName")?.getFilterValue() as string) ?? ""
-          }
-          onChange={(event) =>
-            table.getColumn("firstName")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
+      <div className="flex flex-wrap items-center justify-between gap-4 py-4">
+        <div className="flex flex-wrap items-center gap-2">
+          <Input
+            placeholder="Search by first name..."
+            value={
+              (table.getColumn("firstName")?.getFilterValue() as string) ?? ""
+            }
+            onChange={(event) =>
+              table.getColumn("firstName")?.setFilterValue(event.target.value)
+            }
+            className="w-64"
+          />
+
+          <Select
+            value={
+              (table.getColumn("status")?.getFilterValue() as string) ?? "all"
+            }
+            onValueChange={(value) =>
+              table
+                .getColumn("status")
+                ?.setFilterValue(value === "all" ? "" : value)
+            }
+          >
+            <SelectTrigger className="w-40">
+              <SelectValue placeholder="Status" />
+            </SelectTrigger>
+
+            <SelectContent>
+              <SelectItem value="all">All Status</SelectItem>
+              <SelectItem value="Active">Active</SelectItem>
+              <SelectItem value="Inactive">Inactive</SelectItem>
+            </SelectContent>
+          </Select>
+
+          <Select
+            value={
+              (table.getColumn("company")?.getFilterValue() as string) ?? "all"
+            }
+            onValueChange={(value) =>
+              table
+                .getColumn("company")
+                ?.setFilterValue(value === "all" ? "" : value)
+            }
+          >
+            <SelectTrigger className="w-44">
+              <SelectValue placeholder="Company" />
+            </SelectTrigger>
+
+            <SelectContent>
+              <SelectItem value="all">All Companies</SelectItem>
+              <SelectItem value="Google">Google</SelectItem>
+              <SelectItem value="Microsoft">Microsoft</SelectItem>
+              <SelectItem value="Amazon">Amazon</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
 
         <div className="flex gap-2">
           {table.getFilteredSelectedRowModel().rows.length > 0 && (

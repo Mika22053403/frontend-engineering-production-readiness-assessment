@@ -1,24 +1,32 @@
 "use client";
 
 import CreateContactDialog from "./create-contact-dialog";
+import { Button } from "@/components/ui/button";
 import { ContactTable } from "./contact-table";
 import { columns } from "../table/columns";
 import { useContacts } from "@/hooks/useContacts";
 import { ContactTableSkeleton } from "./contact-table-skeleton";
 export default function ContactsPage() {
-  const { data, isLoading, isError, error } = useContacts();
-
+  const { data, isLoading, isError, error, refetch } = useContacts();
   if (isLoading) {
     return <ContactTableSkeleton />;
   }
   if (isError) {
     return (
-      <div className="rounded-lg border border-destructive p-8 text-center">
-        <h2 className="text-lg font-semibold text-destructive">
-          Something went wrong
-        </h2>
+      <div className="flex min-h-[400px] items-center justify-center">
+        <div className="w-full max-w-md rounded-lg border border-destructive p-8 text-center">
+          <h2 className="text-xl font-semibold text-destructive">
+            Failed to load contacts
+          </h2>
 
-        <p className="mt-2 text-muted-foreground">{(error as Error).message}</p>
+          <p className="mt-3 text-sm text-muted-foreground">
+            {(error as Error).message}
+          </p>
+
+          <Button className="mt-6" onClick={() => refetch()}>
+            Retry
+          </Button>
+        </div>
       </div>
     );
   }
