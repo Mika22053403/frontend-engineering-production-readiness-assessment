@@ -9,18 +9,30 @@ import { Badge } from "@/components/ui/badge";
 
 import { Contact } from "@/types/contact";
 
-import EditContactDialog from "../components/edit-contact-dialog";
-import DeleteContactDialog from "../components/delete-contact-dialog";
 import Link from "next/link";
+import dynamic from "next/dynamic";
+import { memo } from "react";
 
-function ActionsCell({ contact }: { contact: Contact }) {
+const EditContactDialog = dynamic(
+  () => import("../components/edit-contact-dialog"),
+);
+
+const DeleteContactDialog = dynamic(
+  () => import("../components/delete-contact-dialog"),
+);
+
+const ActionsCell = memo(function ActionsCell({
+  contact,
+}: {
+  contact: Contact;
+}) {
   return (
     <div className="flex gap-2">
       <EditContactDialog contact={contact} />
       <DeleteContactDialog contact={contact} />
     </div>
   );
-}
+});
 
 export const columns: ColumnDef<Contact>[] = [
   {

@@ -1,17 +1,41 @@
 "use client";
 
-import CreateContactDialog from "./create-contact-dialog";
+import { useMemo } from "react";
+import dynamic from "next/dynamic";
+
 import { Button } from "@/components/ui/button";
-import { ContactTable } from "./contact-table";
+
 import { columns } from "../table/columns";
 import { useContacts } from "@/hooks/useContacts";
 import { ContactTableSkeleton } from "./contact-table-skeleton";
+
+const CreateContactDialog = dynamic(() => import("./create-contact-dialog"), {
+  loading: () => (
+    <div className="h-10 w-36 animate-pulse rounded-md bg-muted" />
+  ),
+});
+
+const ContactTable = dynamic(
+  () =>
+    import("./contact-table").then((mod) => ({
+      default: mod.ContactTable,
+    })),
+  {
+    loading: () => <ContactTableSkeleton />,
+  },
+);
+
 export default function ContactsPage() {
   const { data, isLoading, isError, error, refetch } = useContacts();
-  const contacts = data ?? [];
+
+  const contacts = useMemo(() => data ?? [], [data]);
+
+  const hasNoContacts = useMemo(() => contacts.length === 0, [contacts]);
+
   if (isLoading) {
     return <ContactTableSkeleton />;
   }
+
   if (isError) {
     return (
       <div className="flex min-h-[400px] items-center justify-center">
@@ -40,7 +64,7 @@ export default function ContactsPage() {
         <CreateContactDialog />
       </div>
 
-      {contacts.length === 0 ? (
+      {hasNoContacts ? (
         <div className="rounded-lg border border-dashed py-16 text-center">
           <h2 className="text-lg font-semibold">No Contacts Yet</h2>
 
@@ -53,7 +77,7 @@ export default function ContactsPage() {
           </div>
         </div>
       ) : (
-        <ContactTable columns={columns} data={data ?? []} />
+        <ContactTable columns={columns} data={contacts} />
       )}
     </div>
   );
