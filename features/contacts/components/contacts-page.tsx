@@ -8,6 +8,7 @@ import { useContacts } from "@/hooks/useContacts";
 import { ContactTableSkeleton } from "./contact-table-skeleton";
 export default function ContactsPage() {
   const { data, isLoading, isError, error, refetch } = useContacts();
+  const contacts = data ?? [];
   if (isLoading) {
     return <ContactTableSkeleton />;
   }
@@ -39,9 +40,7 @@ export default function ContactsPage() {
         <CreateContactDialog />
       </div>
 
-      <ContactTable columns={columns} data={data ?? []} />
-
-      {data?.length === 0 && (
+      {contacts.length === 0 ? (
         <div className="rounded-lg border border-dashed py-16 text-center">
           <h2 className="text-lg font-semibold">No Contacts Yet</h2>
 
@@ -53,6 +52,8 @@ export default function ContactsPage() {
             <CreateContactDialog />
           </div>
         </div>
+      ) : (
+        <ContactTable columns={columns} data={data ?? []} />
       )}
     </div>
   );

@@ -1,6 +1,9 @@
 "use client";
+import * as React from "react";
+import { useEffect } from "react";
+import { useTheme } from "next-themes";
 
-import { useState } from "react";
+import { useThemeStore } from "@/features/store/theme-store";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -15,9 +18,15 @@ import {
 } from "@/components/ui/select";
 
 export default function PreferencesCard() {
-  const [theme, setTheme] = useState("system");
-  const [language, setLanguage] = useState("english");
+  const { theme, setTheme } = useThemeStore();
 
+  const { setTheme: applyTheme } = useTheme();
+
+  const [language, setLanguage] = React.useState("english");
+
+  useEffect(() => {
+    applyTheme(theme);
+  }, [theme, applyTheme]);
   return (
     <Card>
       <CardHeader>
@@ -28,11 +37,16 @@ export default function PreferencesCard() {
         <div className="space-y-2">
           <Label>Theme</Label>
 
-          <Select value={theme} onValueChange={setTheme}>
+          <Select
+            value={theme}
+            onValueChange={(value) =>
+              setTheme(value as "light" | "dark" | "system")
+            }
+          >
+            {" "}
             <SelectTrigger>
               <SelectValue />
             </SelectTrigger>
-
             <SelectContent>
               <SelectItem value="light">Light</SelectItem>
               <SelectItem value="dark">Dark</SelectItem>
