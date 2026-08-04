@@ -13,13 +13,15 @@ export default function ProfileCard() {
 
       <CardContent className="space-y-4">
         <div className="space-y-2">
-          <Label>Full Name</Label>
-          <Input defaultValue="John Doe" />
+          <Label htmlFor="fullName">Full Name</Label>
+
+          <Input id="fullName" defaultValue="John Doe" />
         </div>
 
         <div className="space-y-2">
-          <Label>Email</Label>
-          <Input type="email" defaultValue="john@example.com" />
+          <Label htmlFor="email">Email</Label>
+
+          <Input id="email" type="email" defaultValue="john@example.com" />
         </div>
       </CardContent>
     </Card>

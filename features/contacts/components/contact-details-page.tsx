@@ -28,7 +28,19 @@ export default function ContactDetailsPage({ id }: ContactDetailsPageProps) {
   const contact = data?.find((contact) => contact.id === id);
 
   if (!contact) {
-    return <div>Contact not found.</div>;
+    return (
+      <div className="flex min-h-[400px] flex-col items-center justify-center text-center">
+        <h2 className="text-2xl font-semibold">Contact not found</h2>
+
+        <p className="mt-2 text-muted-foreground">
+          The requested contact could not be found.
+        </p>
+
+        <Link href="/contacts" className="mt-6">
+          <Button>Back to Contacts</Button>
+        </Link>
+      </div>
+    );
   }
 
   return (

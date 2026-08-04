@@ -93,6 +93,7 @@ export function ContactTable({ columns, data }: ContactTableProps) {
       <div className="flex flex-wrap items-center justify-between gap-4 py-4">
         <div className="flex flex-wrap items-center gap-2">
           <Input
+            aria-label="Search contacts by first name"
             placeholder="Search by first name..."
             value={
               (table.getColumn("firstName")?.getFilterValue() as string) ?? ""
@@ -103,6 +104,7 @@ export function ContactTable({ columns, data }: ContactTableProps) {
             className="w-64"
           />
           <Input
+            aria-label="Search contacts by tag"
             placeholder="Search by tag..."
             value={(table.getColumn("tags")?.getFilterValue() as string) ?? ""}
             onChange={(event) =>
@@ -163,6 +165,7 @@ export function ContactTable({ columns, data }: ContactTableProps) {
             <>
               <Button
                 variant="outline"
+                aria-label="Export selected contacts"
                 onClick={() =>
                   exportContacts(
                     table
@@ -177,6 +180,7 @@ export function ContactTable({ columns, data }: ContactTableProps) {
 
               <Button
                 variant="destructive"
+                aria-label="Delete selected contacts"
                 onClick={() =>
                   bulkDelete.mutate(
                     table
@@ -194,7 +198,9 @@ export function ContactTable({ columns, data }: ContactTableProps) {
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline">Columns</Button>
+              <Button variant="outline" aria-label="Show or hide table columns">
+                Columns
+              </Button>
             </DropdownMenuTrigger>
 
             <DropdownMenuContent align="end">
@@ -218,6 +224,7 @@ export function ContactTable({ columns, data }: ContactTableProps) {
       </div>
 
       <div className="rounded-lg border">
+        <div className="overflow-x-auto"></div>
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -258,6 +265,7 @@ export function ContactTable({ columns, data }: ContactTableProps) {
                 <TableCell
                   colSpan={columns.length}
                   className="h-24 text-center"
+                  aria-live="polite"
                 >
                   No contacts found.
                 </TableCell>
@@ -296,6 +304,7 @@ export function ContactTable({ columns, data }: ContactTableProps) {
           <Button
             variant="outline"
             size="sm"
+            aria-label="Go to previous page"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
@@ -305,6 +314,7 @@ export function ContactTable({ columns, data }: ContactTableProps) {
           <Button
             variant="outline"
             size="sm"
+            aria-label="Go to next page"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >

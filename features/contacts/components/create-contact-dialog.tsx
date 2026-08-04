@@ -75,15 +75,17 @@ export default function CreateContactDialog() {
           <form.Field name="firstName">
             {(field) => (
               <div className="space-y-2">
-                <Label>First Name</Label>
+                <Label htmlFor="firstName">First Name</Label>
 
                 <Input
+                  id="firstName"
                   value={field.state.value}
                   onChange={(e) => field.handleChange(e.target.value)}
+                  aria-invalid={field.state.meta.errors.length > 0}
                 />
 
                 {field.state.meta.errors.length > 0 && (
-                  <p className="text-sm text-red-500">
+                  <p className="text-sm text-red-500" aria-live="polite">
                     {String(field.state.meta.errors[0])}
                   </p>
                 )}
@@ -94,15 +96,17 @@ export default function CreateContactDialog() {
           <form.Field name="lastName">
             {(field) => (
               <div className="space-y-2">
-                <Label>Last Name</Label>
+                <Label htmlFor="lastName">Last Name</Label>
 
                 <Input
+                  id="lastName"
                   value={field.state.value}
                   onChange={(e) => field.handleChange(e.target.value)}
+                  aria-invalid={field.state.meta.errors.length > 0}
                 />
 
                 {field.state.meta.errors.length > 0 && (
-                  <p className="text-sm text-red-500">
+                  <p className="text-sm text-red-500" aria-live="polite">
                     {String(field.state.meta.errors[0])}
                   </p>
                 )}
@@ -113,17 +117,18 @@ export default function CreateContactDialog() {
           <form.Field name="email">
             {(field) => (
               <div className="space-y-2">
-                <Label>Email</Label>
+                <Label htmlFor="email">Email</Label>
 
                 <Input
+                  id="email"
                   type="email"
                   autoComplete="email"
                   value={field.state.value}
                   onChange={(e) => field.handleChange(e.target.value)}
+                  aria-invalid={field.state.meta.errors.length > 0}
                 />
-
                 {field.state.meta.errors.length > 0 && (
-                  <p className="text-sm text-red-500">
+                  <p className="text-sm text-red-500" aria-live="polite">
                     {String(field.state.meta.errors[0])}
                   </p>
                 )}
@@ -134,49 +139,57 @@ export default function CreateContactDialog() {
           <form.Field name="phone">
             {(field) => (
               <div className="space-y-2">
-                <Label>Phone</Label>
+                <Label htmlFor="phone">Phone</Label>
 
                 <Input
+                  id="phone"
                   type="tel"
                   inputMode="numeric"
                   maxLength={10}
                   value={field.state.value}
                   onChange={(e) => field.handleChange(e.target.value)}
+                  aria-invalid={field.state.meta.errors.length > 0}
                 />
 
                 {field.state.meta.errors.length > 0 && (
-                  <p className="text-sm text-red-500">
+                  <p className="text-sm text-red-500" aria-live="polite">
                     {String(field.state.meta.errors[0])}
                   </p>
                 )}
               </div>
             )}
           </form.Field>
+
           <form.Field name="company">
             {(field) => (
               <div className="space-y-2">
-                <Label>Company</Label>
+                <Label htmlFor="company">Company</Label>
 
                 <Input
+                  id="company"
                   value={field.state.value}
                   onChange={(e) => field.handleChange(e.target.value)}
+                  aria-invalid={field.state.meta.errors.length > 0}
                 />
-
                 {field.state.meta.errors.length > 0 && (
-                  <p className="text-sm text-red-500">
+                  <p className="text-sm text-red-500" aria-live="polite">
                     {String(field.state.meta.errors[0])}
                   </p>
                 )}
               </div>
             )}
           </form.Field>
+
           <form.Field name="tags">
             {(field) => (
               <div className="space-y-2">
-                <Label>Tags</Label>
+                <Label htmlFor="tags">Tags</Label>
 
                 <Input
+                  id="tags"
                   placeholder="VIP, Customer, Lead"
+                  aria-describedby="tags-help"
+                  aria-invalid={field.state.meta.errors.length > 0}
                   value={field.state.value.join(", ")}
                   onChange={(e) =>
                     field.handleChange(
@@ -188,22 +201,23 @@ export default function CreateContactDialog() {
                   }
                 />
 
-                <p className="text-xs text-muted-foreground">
+                <p id="tags-help" className="text-xs text-muted-foreground">
                   Separate multiple tags with commas.
                 </p>
 
                 {field.state.meta.errors.length > 0 && (
-                  <p className="text-sm text-red-500">
+                  <p className="text-sm text-red-500" aria-live="polite">
                     {String(field.state.meta.errors[0])}
                   </p>
                 )}
               </div>
             )}
           </form.Field>
+
           <form.Field name="status">
             {(field) => (
               <div className="space-y-2">
-                <Label>Status</Label>
+                <Label htmlFor="status">Status</Label>
 
                 <Select
                   value={field.state.value}
@@ -211,7 +225,7 @@ export default function CreateContactDialog() {
                     field.handleChange(value as "Active" | "Inactive")
                   }
                 >
-                  <SelectTrigger>
+                  <SelectTrigger id="status" aria-label="Contact status">
                     <SelectValue placeholder="Select status" />
                   </SelectTrigger>
 
@@ -222,7 +236,7 @@ export default function CreateContactDialog() {
                 </Select>
 
                 {field.state.meta.errors.length > 0 && (
-                  <p className="text-sm text-red-500">
+                  <p className="text-sm text-red-500" aria-live="polite">
                     {String(field.state.meta.errors[0])}
                   </p>
                 )}

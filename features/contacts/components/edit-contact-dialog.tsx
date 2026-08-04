@@ -71,12 +71,19 @@ export default function EditContactDialog({ contact }: EditContactDialogProps) {
           <form.Field name="firstName">
             {(field) => (
               <div className="space-y-2">
-                <Label>First Name</Label>
+                <Label htmlFor="edit-firstName">First Name</Label>
 
                 <Input
+                  id="edit-firstName"
                   value={field.state.value}
                   onChange={(e) => field.handleChange(e.target.value)}
+                  aria-invalid={field.state.meta.errors.length > 0}
                 />
+                {field.state.meta.errors.length > 0 && (
+                  <p className="text-sm text-red-500" aria-live="polite">
+                    {String(field.state.meta.errors[0])}
+                  </p>
+                )}
               </div>
             )}
           </form.Field>
@@ -84,12 +91,19 @@ export default function EditContactDialog({ contact }: EditContactDialogProps) {
           <form.Field name="lastName">
             {(field) => (
               <div className="space-y-2">
-                <Label>Last Name</Label>
+                <Label htmlFor="edit-lastName">Last Name</Label>
 
                 <Input
+                  id="edit-lastName"
                   value={field.state.value}
                   onChange={(e) => field.handleChange(e.target.value)}
+                  aria-invalid={field.state.meta.errors.length > 0}
                 />
+                {field.state.meta.errors.length > 0 && (
+                  <p className="text-sm text-red-500" aria-live="polite">
+                    {String(field.state.meta.errors[0])}
+                  </p>
+                )}
               </div>
             )}
           </form.Field>
@@ -97,13 +111,21 @@ export default function EditContactDialog({ contact }: EditContactDialogProps) {
           <form.Field name="email">
             {(field) => (
               <div className="space-y-2">
-                <Label>Email</Label>
+                <Label htmlFor="edit-email">Email</Label>
 
                 <Input
+                  id="edit-email"
                   type="email"
+                  autoComplete="email"
                   value={field.state.value}
                   onChange={(e) => field.handleChange(e.target.value)}
+                  aria-invalid={field.state.meta.errors.length > 0}
                 />
+                {field.state.meta.errors.length > 0 && (
+                  <p className="text-sm text-red-500" aria-live="polite">
+                    {String(field.state.meta.errors[0])}
+                  </p>
+                )}
               </div>
             )}
           </form.Field>
@@ -111,12 +133,22 @@ export default function EditContactDialog({ contact }: EditContactDialogProps) {
           <form.Field name="phone">
             {(field) => (
               <div className="space-y-2">
-                <Label>Phone</Label>
+                <Label htmlFor="edit-phone">Phone</Label>
 
                 <Input
+                  id="edit-phone"
+                  type="tel"
+                  inputMode="numeric"
+                  maxLength={10}
                   value={field.state.value}
                   onChange={(e) => field.handleChange(e.target.value)}
+                  aria-invalid={field.state.meta.errors.length > 0}
                 />
+                {field.state.meta.errors.length > 0 && (
+                  <p className="text-sm text-red-500" aria-live="polite">
+                    {String(field.state.meta.errors[0])}
+                  </p>
+                )}
               </div>
             )}
           </form.Field>
@@ -124,12 +156,19 @@ export default function EditContactDialog({ contact }: EditContactDialogProps) {
           <form.Field name="company">
             {(field) => (
               <div className="space-y-2">
-                <Label>Company</Label>
+                <Label htmlFor="edit-company">Company</Label>
 
                 <Input
+                  id="edit-company"
                   value={field.state.value}
                   onChange={(e) => field.handleChange(e.target.value)}
+                  aria-invalid={field.state.meta.errors.length > 0}
                 />
+                {field.state.meta.errors.length > 0 && (
+                  <p className="text-sm text-red-500" aria-live="polite">
+                    {String(field.state.meta.errors[0])}
+                  </p>
+                )}
               </div>
             )}
           </form.Field>
@@ -137,9 +176,12 @@ export default function EditContactDialog({ contact }: EditContactDialogProps) {
           <form.Field name="tags">
             {(field) => (
               <div className="space-y-2">
-                <Label>Tags</Label>
+                <Label htmlFor="edit-tags">Tags</Label>
 
                 <Input
+                  id="edit-tags"
+                  aria-describedby="edit-tags-help"
+                  aria-invalid={field.state.meta.errors.length > 0}
                   value={field.state.value.join(", ")}
                   onChange={(e) =>
                     field.handleChange(
@@ -150,6 +192,18 @@ export default function EditContactDialog({ contact }: EditContactDialogProps) {
                     )
                   }
                 />
+
+                <p
+                  id="edit-tags-help"
+                  className="text-xs text-muted-foreground"
+                >
+                  Separate multiple tags with commas.
+                </p>
+                {field.state.meta.errors.length > 0 && (
+                  <p className="text-sm text-red-500" aria-live="polite">
+                    {String(field.state.meta.errors[0])}
+                  </p>
+                )}
               </div>
             )}
           </form.Field>
@@ -157,7 +211,7 @@ export default function EditContactDialog({ contact }: EditContactDialogProps) {
           <form.Field name="status">
             {(field) => (
               <div className="space-y-2">
-                <Label>Status</Label>
+                <Label htmlFor="edit-status">Status</Label>
 
                 <Select
                   value={field.state.value}
@@ -174,6 +228,11 @@ export default function EditContactDialog({ contact }: EditContactDialogProps) {
                     <SelectItem value="Inactive">Inactive</SelectItem>
                   </SelectContent>
                 </Select>
+                {field.state.meta.errors.length > 0 && (
+                  <p className="text-sm text-red-500" aria-live="polite">
+                    {String(field.state.meta.errors[0])}
+                  </p>
+                )}
               </div>
             )}
           </form.Field>
