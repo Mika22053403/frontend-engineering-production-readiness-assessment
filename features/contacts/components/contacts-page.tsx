@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import dynamic from "next/dynamic";
 
 import { Button } from "@/components/ui/button";
-
+import { UsersRound } from "lucide-react";
 import { columns } from "../table/columns";
 import { useContacts } from "@/hooks/useContacts";
 import { ContactTableSkeleton } from "./contact-table-skeleton";
@@ -48,7 +48,11 @@ export default function ContactsPage() {
             {(error as Error).message}
           </p>
 
-          <Button className="mt-6" onClick={() => refetch()}>
+          <Button
+            className="mt-6"
+            onClick={() => refetch()}
+            aria-label="Retry loading contacts"
+          >
             Retry
           </Button>
         </div>
@@ -66,7 +70,9 @@ export default function ContactsPage() {
 
       {hasNoContacts ? (
         <div className="rounded-lg border border-dashed py-16 text-center">
-          <h2 className="text-lg font-semibold">No Contacts Yet</h2>
+          <UsersRound className="mx-auto h-16 w-16 text-muted-foreground" />
+
+          <h2 className="mt-4 text-xl font-semibold">No Contacts Yet</h2>
 
           <p className="mt-2 text-sm text-muted-foreground">
             Create your first contact to get started.

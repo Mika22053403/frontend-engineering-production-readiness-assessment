@@ -1,4 +1,5 @@
-import nextJest from "next/jest.js";import type { Config } from "jest";
+import nextJest from "next/jest.js";
+import type { Config } from "jest";
 
 const createJestConfig = nextJest({
   dir: "./",
@@ -17,6 +18,7 @@ const config: Config = {
   testPathIgnorePatterns: [
     "<rootDir>/.next/",
     "<rootDir>/node_modules/",
+    "<rootDir>/e2e/",
   ],
 };
 

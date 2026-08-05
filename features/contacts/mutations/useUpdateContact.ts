@@ -20,7 +20,7 @@ export function useUpdateContact() {
     },
 
     onError: () => {
-      toast.error("Failed to update contact.");
+      toast.error("Unable to update contact.");
     },
   });
 }

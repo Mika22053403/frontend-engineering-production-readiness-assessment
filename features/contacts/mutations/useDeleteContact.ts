@@ -42,7 +42,7 @@ export function useDeleteContact() {
         );
       }
 
-      toast.error("Failed to delete contact.");
+      toast.error("Unable to delete contact.");
     },
 
     // Success message

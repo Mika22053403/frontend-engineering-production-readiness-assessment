@@ -28,7 +28,11 @@ export default function DeleteContactDialog({
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="destructive" size="sm">
+        <Button
+          variant="destructive"
+          size="sm"
+          aria-label={`Delete ${contact.firstName}`}
+        >
           Delete
         </Button>
       </AlertDialogTrigger>

@@ -53,7 +53,9 @@ export default function EditContactDialog({ contact }: EditContactDialogProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">Edit</Button>
+        <Button variant="outline" aria-label={`Edit ${contact.firstName}`}>
+          Edit
+        </Button>
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-lg">

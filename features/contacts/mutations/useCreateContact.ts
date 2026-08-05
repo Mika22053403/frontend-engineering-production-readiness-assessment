@@ -20,7 +20,7 @@ export function useCreateContact() {
     },
 
     onError: () => {
-      toast.error("Failed to create contact.");
+      toast.error("Unable to create contact. Please try again.");
     },
   });
 }

@@ -3,15 +3,23 @@ import { test, expect } from "@playwright/test";
 test("user can create a contact", async ({ page }) => {
   // Login
   await page.goto("/login");
-  await page.getByRole("button", { name: /login/i }).click();
+
+  await page.getByRole("button", {
+    name: /login/i,
+  }).click();
+
+  // Wait for login redirect
+  await page.waitForURL("**/");
 
   // Go to Contacts page
   await page.goto("/contacts");
 
+  // Wait for contacts page to finish loading
+  await page.waitForLoadState("networkidle");
+
   // Open Create Contact dialog
   await page.getByRole("button", { name: "Create Contact" }).first().click();
 
-  // Scope everything to the dialog
   const dialog = page.getByRole("dialog");
 
   await dialog.getByLabel("First Name").fill("Playwright");
@@ -21,15 +29,12 @@ test("user can create a contact", async ({ page }) => {
   await dialog.getByLabel("Company").fill("OpenAI");
   await dialog.getByLabel("Tags").fill("VIP, Lead");
 
-  // Submit
   await dialog
     .getByRole("button", { name: /^Create Contact$/ })
     .click();
 
-  // Dialog closes
   await expect(dialog).toBeHidden();
 
-  // Verify new row exists
   await expect(
     page.getByRole("link", { name: "Playwright" }),
   ).toBeVisible();

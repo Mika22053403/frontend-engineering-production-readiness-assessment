@@ -56,7 +56,7 @@ export default function CreateContactDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>Create Contact</Button>
+        <Button aria-label="Create Contact">Create Contact</Button>
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-lg">

@@ -41,7 +41,7 @@ describe("Contact Search", () => {
       </QueryClientProvider>,
     );
 
-    const input = screen.getByPlaceholderText(/search/i);
+    const input = screen.getByLabelText("Search contacts by first name");
 
     fireEvent.change(input, {
       target: {
