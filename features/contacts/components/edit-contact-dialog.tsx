@@ -219,7 +219,7 @@ export default function EditContactDialog({ contact }: EditContactDialogProps) {
                     field.handleChange(value as "Active" | "Inactive")
                   }
                 >
-                  <SelectTrigger>
+                  <SelectTrigger id="edit-status">
                     <SelectValue placeholder="Select status" />
                   </SelectTrigger>
 
