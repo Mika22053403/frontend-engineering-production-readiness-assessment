@@ -7,13 +7,13 @@ test("user can login", async ({ page }) => {
     name: /login/i,
   }).click();
 
-  // User should be redirected to the home page
-  await expect(page).toHaveURL("/");
+  // User should be redirected to Contacts
+  await expect(page).toHaveURL("/contacts");
 
-  // Home page heading should be visible
+  // Verify Contacts page loaded
   await expect(
-    page.getByRole("heading", {
-      name: "CampaignHQ",
+    page.getByRole("button", {
+      name: /create contact/i,
     }),
   ).toBeVisible();
 });
