@@ -10,13 +10,7 @@ export async function POST(request: Request) {
 
   const newContact = {
     id: crypto.randomUUID(),
-    firstName: body.firstName,
-    lastName: body.lastName,
-    email: body.email,
-    phone: body.phone ?? "",
-    company: body.company ?? "",
-    tags: body.tags ?? [],
-    status: body.status ?? "Active",
+    ...body,
   };
 
   contacts.push(newContact);
