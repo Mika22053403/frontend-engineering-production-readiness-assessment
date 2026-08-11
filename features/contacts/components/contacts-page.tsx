@@ -39,7 +39,7 @@ export default function ContactsPage() {
   if (isError) {
     return (
       <div className="flex min-h-[400px] items-center justify-center">
-        <div className="w-full max-w-md rounded-lg border border-destructive p-8 text-center">
+        <div className="w-full max-w-md rounded-xl border border-destructive/30 bg-destructive/5 p-8 text-center">
           <h2 className="text-xl font-semibold text-destructive">
             Failed to load contacts
           </h2>
@@ -62,23 +62,37 @@ export default function ContactsPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold">Contacts</h1>
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+            Contacts
+          </h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            {contacts.length
+              ? `${contacts.length} contact${contacts.length === 1 ? "" : "s"} in your CRM`
+              : "Manage the people you reach on WhatsApp and email"}
+          </p>
+        </div>
 
-        <CreateContactDialog />
+        <div className="sm:shrink-0">
+          <CreateContactDialog />
+        </div>
       </div>
 
       {hasNoContacts ? (
-        <div className="rounded-lg border border-dashed py-16 text-center">
-          <UsersRound className="mx-auto h-16 w-16 text-muted-foreground" />
+        <div className="rounded-xl border border-dashed border-border bg-card py-16 text-center">
+          <div className="mx-auto flex size-16 items-center justify-center rounded-full bg-accent">
+            <UsersRound className="h-8 w-8 text-primary" />
+          </div>
 
           <h2 className="mt-4 text-xl font-semibold">No Contacts Yet</h2>
 
-          <p className="mt-2 text-sm text-muted-foreground">
-            Create your first contact to get started.
+          <p className="mx-auto mt-2 max-w-sm text-sm text-muted-foreground">
+            Create your first contact to start reaching customers on WhatsApp
+            and email.
           </p>
 
-          <div className="mt-6">
+          <div className="mt-6 flex justify-center">
             <CreateContactDialog />
           </div>
         </div>

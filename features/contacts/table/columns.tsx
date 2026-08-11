@@ -69,7 +69,7 @@ export const columns: ColumnDef<Contact>[] = [
     cell: ({ row }) => (
       <Link
         href={`/contacts/${row.original.id}`}
-        className="font-medium text-blue-600 hover:underline"
+        className="font-medium text-primary hover:underline"
       >
         {row.original.firstName}
       </Link>
@@ -90,7 +90,7 @@ export const columns: ColumnDef<Contact>[] = [
     cell: ({ row }) => (
       <Link
         href={`/contacts/${row.original.id}`}
-        className="font-medium text-blue-600 hover:underline"
+        className="font-medium text-primary hover:underline"
       >
         {row.original.lastName}
       </Link>
@@ -131,6 +131,30 @@ export const columns: ColumnDef<Contact>[] = [
 
     filterFn: (row, id, value) => {
       return row.getValue(id) === value;
+    },
+
+    cell: ({ row }) => {
+      const status = row.original.status;
+      const isActive = status === "Active";
+
+      return (
+        <Badge
+          variant="outline"
+          className={
+            isActive
+              ? "border-success/20 bg-success/10 text-success"
+              : "border-border bg-muted text-muted-foreground"
+          }
+        >
+          <span
+            className={
+              "size-1.5 rounded-full " +
+              (isActive ? "bg-success" : "bg-muted-foreground")
+            }
+          />
+          {status}
+        </Badge>
+      );
     },
   },
   {

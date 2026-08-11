@@ -85,7 +85,7 @@ export default function CreateContactDialog() {
                 />
 
                 {field.state.meta.errors.length > 0 && (
-                  <p className="text-sm text-red-500" aria-live="polite">
+                  <p className="text-sm text-destructive" aria-live="polite">
                     {String(field.state.meta.errors[0])}
                   </p>
                 )}
@@ -106,7 +106,7 @@ export default function CreateContactDialog() {
                 />
 
                 {field.state.meta.errors.length > 0 && (
-                  <p className="text-sm text-red-500" aria-live="polite">
+                  <p className="text-sm text-destructive" aria-live="polite">
                     {String(field.state.meta.errors[0])}
                   </p>
                 )}
@@ -128,7 +128,7 @@ export default function CreateContactDialog() {
                   aria-invalid={field.state.meta.errors.length > 0}
                 />
                 {field.state.meta.errors.length > 0 && (
-                  <p className="text-sm text-red-500" aria-live="polite">
+                  <p className="text-sm text-destructive" aria-live="polite">
                     {String(field.state.meta.errors[0])}
                   </p>
                 )}
@@ -152,7 +152,7 @@ export default function CreateContactDialog() {
                 />
 
                 {field.state.meta.errors.length > 0 && (
-                  <p className="text-sm text-red-500" aria-live="polite">
+                  <p className="text-sm text-destructive" aria-live="polite">
                     {String(field.state.meta.errors[0])}
                   </p>
                 )}
@@ -172,7 +172,7 @@ export default function CreateContactDialog() {
                   aria-invalid={field.state.meta.errors.length > 0}
                 />
                 {field.state.meta.errors.length > 0 && (
-                  <p className="text-sm text-red-500" aria-live="polite">
+                  <p className="text-sm text-destructive" aria-live="polite">
                     {String(field.state.meta.errors[0])}
                   </p>
                 )}
@@ -206,7 +206,7 @@ export default function CreateContactDialog() {
                 </p>
 
                 {field.state.meta.errors.length > 0 && (
-                  <p className="text-sm text-red-500" aria-live="polite">
+                  <p className="text-sm text-destructive" aria-live="polite">
                     {String(field.state.meta.errors[0])}
                   </p>
                 )}
@@ -236,7 +236,7 @@ export default function CreateContactDialog() {
                 </Select>
 
                 {field.state.meta.errors.length > 0 && (
-                  <p className="text-sm text-red-500" aria-live="polite">
+                  <p className="text-sm text-destructive" aria-live="polite">
                     {String(field.state.meta.errors[0])}
                   </p>
                 )}
