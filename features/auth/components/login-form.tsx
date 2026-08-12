@@ -96,7 +96,7 @@ export default function LoginForm() {
 
         <Button
           type="submit"
-          className="h-11 w-full rounded-full text-base"
+          className="h-11 w-full text-base"
           size="lg"
           disabled={mutation.isPending}
         >

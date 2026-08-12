@@ -16,7 +16,7 @@ export default function LoginPage() {
             <span className="text-sm text-muted-foreground">
               New to CampaignHQ?
             </span>
-            <Button size="sm" variant="default" className="rounded-full">
+            <Button size="sm" variant="default">
               Start Free
               <ArrowRight className="size-3.5" />
             </Button>
