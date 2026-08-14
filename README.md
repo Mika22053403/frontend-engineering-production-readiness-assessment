@@ -2,17 +2,18 @@
 
 A production-ready Contacts Management module built for the CampaignHQ Frontend Engineering Assessment using the modern Next.js ecosystem.
 
-The application allows authenticated users to manage contacts with Create, Read, Update, Delete (CRUD) operations, advanced table features, client-side validation, optimistic updates, and automated testing.
+The application allows authenticated users to manage contacts with Create, Read, Update, Delete (CRUD) operations, advanced table features, client-side validation, optimistic updates, and automated testing. The UI is themed to match CampaignHQ's real brand (navy / cream / amber, official logo assets) and includes a full mocked login + signup flow.
 
 ---
 
 # Project Overview
 
-CampaignHQ is an email marketing platform where businesses manage customer contacts.
+CampaignHQ is a WhatsApp/email marketing platform where businesses manage customer contacts.
 
 This project implements a Contacts Module that allows users to:
 
-- Authenticate into the application
+- Sign up for a workspace
+- Log in
 - View contacts
 - Search contacts
 - Filter contacts
@@ -32,9 +33,10 @@ The application is built using scalable frontend architecture and follows produc
 
 ## Authentication
 
-- Mock login
-- Protected routes using Zustand
-- Persistent authentication state
+- Mock login (demo credentials, pre-filled)
+- Mock signup (work email, password, company/workspace name — validated client-side)
+- Persistent authentication state via Zustand
+- Note: routes are not access-controlled server-side — see [Known Limitations](#known-limitations)
 
 ## Contacts
 
@@ -54,6 +56,7 @@ The application is built using scalable frontend architecture and follows produc
 - Pagination
 - Row selection
 - Export contacts to CSV
+- Responsive: table view on desktop/tablet, card list view on mobile (single-mount, no duplicate DOM — see `hooks/use-mobile.ts`)
 
 ## Forms
 
@@ -72,7 +75,10 @@ The application is built using scalable frontend architecture and follows produc
 
 ## UI
 
-- Responsive layout
+- CampaignHQ brand design system (navy / cream / amber, official logo + mascot assets, token-driven theme in `app/globals.css`)
+- Split-screen login/signup pages matching the production app's visual design
+- Light/dark mode via `next-themes`, toggle in the app header
+- Responsive layout, mobile nav via a `Sheet` menu
 - Tailwind CSS
 - shadcn/ui components
 - Dynamic imports for better performance
@@ -81,23 +87,25 @@ The application is built using scalable frontend architecture and follows produc
 
 # Technologies Used
 
-| Technology            | Purpose                 |
-| --------------------- | ----------------------- |
-| Next.js 16            | React Framework         |
-| React 19              | UI Library              |
-| TypeScript            | Type Safety             |
-| Tailwind CSS 4        | Styling                 |
-| shadcn/ui             | UI Components           |
-| TanStack Query        | Server State Management |
-| TanStack Form         | Form Management         |
-| TanStack Table        | Data Table              |
-| Zustand               | Authentication State    |
-| Zod                   | Schema Validation       |
-| Axios                 | API Requests            |
-| MSW                   | Mock Backend            |
-| Playwright            | End-to-End Testing      |
-| Jest                  | Unit Testing            |
-| React Testing Library | Component Testing       |
+| Technology             | Purpose                  |
+| ----------------------- | -------------------------- |
+| Next.js 16              | React Framework             |
+| React 19                | UI Library                  |
+| TypeScript              | Type Safety                 |
+| Tailwind CSS 4          | Styling                     |
+| shadcn/ui               | UI Components               |
+| TanStack Query          | Server State Management     |
+| TanStack Form           | Form Management             |
+| TanStack Table          | Data Table                  |
+| Zustand                 | Authentication State        |
+| Zod                     | Schema Validation           |
+| Axios                   | API Requests                |
+| MSW                     | Mock Backend                |
+| next-themes             | Light / dark mode           |
+| lucide-react            | Icons                       |
+| Playwright              | End-to-End Testing          |
+| Jest                    | Unit Testing                |
+| React Testing Library   | Component Testing           |
 
 ---
 
@@ -107,23 +115,27 @@ The application is built using scalable frontend architecture and follows produc
 campaignhq/
 │
 ├── app/
-│   ├── contacts/
+│   ├── (app)/              # route group: authenticated pages, wrapped in AppShell
+│   │   ├── contacts/
+│   │   └── settings/
 │   ├── login/
-│   ├── settings/
-│   └── api/
+│   ├── signup/
+│   └── api/                # real Next.js route handlers (contacts CRUD)
 │
 ├── components/
-│   └── ui/
+│   ├── ui/                 # shadcn primitives
+│   └── layout/              # app shell, header, logo, auth marketing panels
 │
 ├── features/
 │   ├── auth/
+│   │   └── components/      # login-form, signup-form
 │   └── contacts/
 │       ├── components/
 │       ├── mutations/
 │       ├── table/
 │       └── hooks/
 │
-├── hooks/
+├── hooks/                   # includes use-mobile.ts (responsive breakpoint hook)
 │
 ├── lib/
 │
@@ -137,9 +149,10 @@ campaignhq/
 │
 ├── types/
 │
-├── mocks/
+├── mocks/                    # MSW handlers (auth, contacts) + fixture data
 │
 ├── public/
+│   └── brand/                 # official CampaignHQ logo/mark assets
 │
 ├── e2e/
 │
@@ -257,12 +270,14 @@ The project includes automated tests for:
 - Search functionality
 - Contact service methods
 - Zustand authentication store
+- Signup form rendering, validation, and disabled/enabled submit state
 
 ## End-to-End Tests
 
 Playwright tests cover:
 
 - Login
+- Signup (including navigation back to login)
 - Create Contact
 - Edit Contact
 - Delete Contact
@@ -272,7 +287,7 @@ Playwright tests cover:
 # Assumptions
 
 - Authentication is mocked for assessment purposes.
-- Backend APIs are simulated using Mock Service Worker (MSW).
+- Backend APIs are simulated using Mock Service Worker (MSW) in development and e2e tests; `app/api/contacts` provides a real in-memory implementation for the deployed environment.
 - Contacts are stored in mock data during development.
 - CSV export is performed entirely on the client.
 - The project focuses on frontend architecture and user experience.
@@ -283,6 +298,8 @@ Playwright tests cover:
 
 - No real backend integration.
 - Authentication is not production-secure.
+- **Routes are not access-controlled** — there is no middleware/route guard, so `/contacts` and `/settings` are reachable without logging in; authentication state currently only gates what the UI shows (e.g. header account info), not route access.
+- Signup does not verify email or enforce password strength beyond a minimum length.
 - Data is reset when the mock server restarts.
 - File/image uploads are not implemented.
 - Bulk edit and bulk delete operations are not included.
@@ -299,6 +316,9 @@ Playwright tests cover:
 - Loading skeletons
 - Code splitting
 - Client-side caching
+- Single-mount responsive rendering for the contacts table (no duplicate desktop+mobile DOM)
+
+See `ARCHITECTURE.md` for details on why the responsive table was changed from a CSS-hidden dual-render to a single `useIsMobile()`-driven mount.
 
 ---
 
