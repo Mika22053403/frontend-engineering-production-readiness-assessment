@@ -13,3 +13,9 @@ export interface LoginPayload {
   email: string;
   password: string;
 }
+
+export interface SignupPayload {
+  workEmail: string;
+  password: string;
+  companyName: string;
+}

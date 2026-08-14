@@ -1,8 +1,9 @@
+import Link from "next/link";
 import { ArrowRight, Star } from "lucide-react";
 
 import LoginForm from "@/features/auth/components/login-form";
 import { CampaignHQLogo } from "@/components/layout/campaignhq-logo";
-import { LoginMarketingPanel } from "@/components/layout/login-marketing-panel";
+import { AuthMarketingPanel } from "@/components/layout/auth-marketing-panel";
 import { Button } from "@/components/ui/button";
 
 export default function LoginPage() {
@@ -16,9 +17,11 @@ export default function LoginPage() {
             <span className="text-sm text-muted-foreground">
               New to CampaignHQ?
             </span>
-            <Button size="sm" variant="default">
-              Start Free
-              <ArrowRight className="size-3.5" />
+            <Button size="sm" variant="default" asChild>
+              <Link href="/signup">
+                Start Free
+                <ArrowRight className="size-3.5" />
+              </Link>
             </Button>
           </div>
         </div>
@@ -37,7 +40,7 @@ export default function LoginPage() {
         </div>
       </div>
 
-      <LoginMarketingPanel className="hidden lg:flex" />
+      <AuthMarketingPanel className="hidden lg:flex" />
     </main>
   );
 }

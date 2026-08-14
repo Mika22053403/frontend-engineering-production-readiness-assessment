@@ -6,4 +6,10 @@ export const authMutations = {
     mutationOptions({
       mutationFn: authService.login,
     }),
+
+  signup: () =>
+    mutationOptions({
+      mutationFn: authService.signup,
+    }),
 };
+  
